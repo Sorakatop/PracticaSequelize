@@ -1,5 +1,4 @@
-const db = require('../database/models/index.js')
-const {Op} = require("sequelize");
+const db = require('../database/models/index.js');
 
 module.exports={
     list: (req,res)=>{
