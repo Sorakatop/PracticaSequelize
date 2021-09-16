@@ -4,29 +4,38 @@ const {Op} = require("sequelize");
 module.exports={
     list: (req,res)=>{
         db.Movies.findAll()
-         .then(movies=> {
-            res.render('moviesList',{movies:movies})
+         .then(resultado=> {
+            res.render('moviesList',{movies:resultado})
         })
     },
     detail: (req,res)=>{
         db.Movies.findByPk(req.params.id)
-            .then(movies=>{
-                res.render ("moviesDetail", {movie:movie})
+            .then(resultado=>{
+                res.render ("moviesDetail", {movie:resultado})
             })
     },
     new: (req,res)=>{
         db.Movies.findAll({
             order:[
-                ['release_date','ASC']
+                ['release_date','DESC']
             ]
+        })
+        .then(resultado=>{
+            res.render('newestMovies',{movies:resultado})
         })
     },
     recommended: (req,res)=>{
-        db.Movies.findAll({
-            where:{
-               rating: {[Op.gt]:5}
-            },
-            limit:5
+        db.Movies.findAll({          
+            order:[
+                ['rating','ASC']
+            ],
+            limit:5,
+            where : {
+                rating: {[Op.gt]:8}
+            }
+        })
+        .then(resultado=>{
+            res.render('recommendedMovies',{movies:resultado})
         })
     }
 }
